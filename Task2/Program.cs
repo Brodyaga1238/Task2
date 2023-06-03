@@ -55,6 +55,7 @@ class  Program
        Console.WriteLine("Введите 1, если хотите изменить значения x,n\nВведите любое другое число, если хотите завершить");
        while ((new_try=Convert.ToInt32(Console.ReadLine()))==1)
        {
+           
            Console.WriteLine("Введите точку интерполирования x");
            x =Convert.ToInt32(Console.ReadLine());
            Console.WriteLine("Введите n");
@@ -62,8 +63,25 @@ class  Program
            {
                Console.WriteLine("Введено недопустимое значение n");
            }
+           values2.Clear();
+           sortList.Clear();
+           sortList = new List<double>(SortNodes(nodeList, x, n));
+           Console.WriteLine("Отсортированная таблица узлов ");
+           for (int i = 0; i < sortList.Count; i++)
+           {
+               values2.Add(Function(sortList[i]));
+               Console.WriteLine($"{sortList[i]:F2} {values2[i]:F2}");
+           }
+           Console.WriteLine("Введите 1, если хотите изменить значения x,n\nВведите любое другое число, если хотите завершить");
        }
     }
+    static List<double> SortNodes(List<double> nodes, double x, int n)
+    {
+           List<Tuple<double, double>> distances = nodes.Select(node => Tuple.Create(Math.Abs(node - x), node)).ToList(); 
+           distances.Sort((a, b) => a.Item1.CompareTo(b.Item1));
+           List<double> selectedNodes = distances.Select(node => node.Item2).Take(n + 1).ToList();
+           return selectedNodes;
+    } 
     static double[] DividedDifferences(List<double> nodes, List<double> values, double x, int n)
     {
         int m = nodes.Count;
@@ -96,13 +114,7 @@ class  Program
     {
         return (f1 - f0) / (x1 - x0);
     }
-     static List<double> SortNodes(List<double> nodes, double x, int n)
-    {
-        List<Tuple<double, double>> distances = nodes.Select(node => Tuple.Create(Math.Abs(node - x), node)).ToList(); 
-        distances.Sort((a, b) => a.Item1.CompareTo(b.Item1));
-        List<double> selectedNodes = distances.Select(node => node.Item2).Take(n + 1).ToList();
-        return selectedNodes;
-    }
+    
    static double InterpolateNewton(double x, List<double> nodes, double[] coefficients)
     {
         double result = coefficients[coefficients.Length - 1];
