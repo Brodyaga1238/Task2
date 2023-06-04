@@ -53,15 +53,16 @@ class  Program
         Console.WriteLine("Введите 1, если хотите изменить значения x,n\nВведите любое другое число, если хотите завершить");
         while ((new_try = Convert.ToInt32(Console.ReadLine())) == 1)
         {
-            Call(x, n, m, nodeList, sortList, values2);
+            Call( m, nodeList, sortList, values2);
             Console.WriteLine("Введите 1, если хотите изменить значения x,n\nВведите любое другое число, если хотите завершить");
         }
 
     }
-    static void Call(double x,int n,int m,List<double> nodeList, List<double> sortList, List<double> values2)
+    static void Call(int m,List<double> nodeList, List<double> sortList, List<double> values2)
     {
         Console.Write("Введите новое значение x=");
-        x = Convert.ToDouble(Console.ReadLine());
+        double x = Convert.ToDouble(Console.ReadLine());
+        int n;
         Console.Write("Введите новое значение n=");
         do
         {
